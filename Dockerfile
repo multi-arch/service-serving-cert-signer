@@ -3,11 +3,11 @@
 #
 # The standard name for this image is openshift/origin-service-serving-cert-signer
 #
-FROM openshift/origin-release:golang-1.10
+FROM openshift/golang-builder:1.10
 COPY . /go/src/github.com/openshift/service-serving-cert-signer
 RUN cd /go/src/github.com/openshift/service-serving-cert-signer && go build ./cmd/service-serving-cert-signer
 
-FROM centos:7
+FROM rhel7:7-released
 COPY --from=0 /go/src/github.com/openshift/service-serving-cert-signer/service-serving-cert-signer /usr/bin/service-serving-cert-signer
 
 COPY manifests /manifests
